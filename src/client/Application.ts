@@ -3,9 +3,7 @@ import * as Viewport from "pixi-viewport";
 import { Room, Client } from "colyseus.js";
 import { State } from "../server/rooms/State";
 
-const ENDPOINT = (process.env.NODE_ENV==="development")
-    ? "ws://localhost:8080"
-    : "wss://colyseus-pixijs-boilerplate.herokuapp.com";
+const ENDPOINT = "ws://localhost:8080"
 
 const WORLD_SIZE = 2000;
 
@@ -48,10 +46,10 @@ export class Application extends PIXI.Application {
 
         this.interpolation = false;
 
-        this.viewport.on("mousemove", (e) => {
+        this.viewport.on("click", (e) => {
             if (this.currentPlayerEntity) {
                 const point = this.viewport.toLocal(e.data.global);
-                this.room.send('mouse', { x: point.x, y: point.y });
+                this.room.send('moveTo', { x: point.x, y: point.y });
             }
         });
     }
